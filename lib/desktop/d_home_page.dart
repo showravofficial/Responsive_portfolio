@@ -12,23 +12,84 @@ class DHomePage extends StatefulWidget {
   _DHomePageState createState() => _DHomePageState();
 }
 
-class _DHomePageState extends State<DHomePage> {
+class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _page1Key = GlobalKey();
   final GlobalKey _page2Key = GlobalKey();
   final GlobalKey _page3Key = GlobalKey();
   final GlobalKey _page4Key = GlobalKey();
   final GlobalKey _page5Key = GlobalKey();
+  
+  late final AnimationController _page1Controller;
+  late final AnimationController _page2Controller;
+  late final AnimationController _page3Controller;
+  late final AnimationController _page4Controller;
+  late final AnimationController _page5Controller;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _page1Controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+
+    _page2Controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _page3Controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _page4Controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _page5Controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    Future.delayed(const Duration(seconds: 1), () {
+      _page2Controller.forward();
+    });
+
+    Future.delayed(const Duration(seconds: 2), () {
+      _page3Controller.forward();
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      _page4Controller.forward();
+    });
+
+    Future.delayed(const Duration(seconds: 4), () {
+      _page5Controller.forward();
+    });
+  }
 
   void _scrollToPage(GlobalKey key) {
-    final RenderBox renderBox =
-        key.currentContext?.findRenderObject() as RenderBox;
+    final RenderBox renderBox = key.currentContext?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero).dy;
     _scrollController.animateTo(
       position + _scrollController.offset,
       duration: Duration(seconds: 1),
       curve: Curves.easeInOut,
     );
+  }
+
+  @override
+  void dispose() {
+    _page1Controller.dispose();
+    _page2Controller.dispose();
+    _page3Controller.dispose();
+    _page4Controller.dispose();
+    _page5Controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,22 +120,22 @@ class _DHomePageState extends State<DHomePage> {
                     onTap: () => _scrollToPage(_page1Key),
                     child: Text("Page 1"),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page2Key),
                     child: Text("Page 2"),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page3Key),
                     child: Text("Page 3"),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page4Key),
                     child: Text("Page 4"),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page5Key),
                     child: Text("Page 5"),
@@ -92,30 +153,76 @@ class _DHomePageState extends State<DHomePage> {
           color: Colors.greenAccent,
         ),
         child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           controller: _scrollController,
           child: Column(
             children: [
               SizedBox(
                 height: 20.0,
               ),
-              Page1(key: _page1Key),
-              SizedBox(
-                height: 10,
+              AnimatedBuilder(
+                animation: _page1Controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(100 * (1 - _page1Controller.value), 0),
+                    child: Opacity(
+                      opacity: _page1Controller.value,
+                      child: Page1(key: _page1Key),
+                    ),
+                  );
+                },
               ),
-              Page2(key: _page2Key),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              AnimatedBuilder(
+                animation: _page2Controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(-100 * (1 - _page2Controller.value), 0),
+                    child: Opacity(
+                      opacity: _page2Controller.value,
+                      child: Page2(key: _page2Key),
+                    ),
+                  );
+                },
               ),
-              Page3(key: _page3Key),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              AnimatedBuilder(
+                animation: _page3Controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(100 * (1 - _page3Controller.value), 0),
+                    child: Opacity(
+                      opacity: _page3Controller.value,
+                      child: Page3(key: _page3Key),
+                    ),
+                  );
+                },
               ),
-              Page4(key: _page4Key),
-              SizedBox(
-                height: 10,
+              SizedBox(height: 10),
+              AnimatedBuilder(
+                animation: _page4Controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(-100 * (1 - _page4Controller.value), 0),
+                    child: Opacity(
+                      opacity: _page4Controller.value,
+                      child: Page4(key: _page4Key),
+                    ),
+                  );
+                },
               ),
-              Page5(key: _page5Key),
+              SizedBox(height: 10),
+              AnimatedBuilder(
+                animation: _page5Controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(100 * (1 - _page5Controller.value), 0),
+                    child: Opacity(
+                      opacity: _page5Controller.value,
+                      child: Page5(key: _page5Key),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
