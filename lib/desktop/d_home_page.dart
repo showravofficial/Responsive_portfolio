@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:showrav_dev/desktop/page_1.dart';
 import 'package:showrav_dev/desktop/page_2.dart';
 import 'package:showrav_dev/desktop/page_3.dart';
@@ -19,7 +20,7 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
   final GlobalKey _page3Key = GlobalKey();
   final GlobalKey _page4Key = GlobalKey();
   final GlobalKey _page5Key = GlobalKey();
-  
+
   late final AnimationController _page1Controller;
   late final AnimationController _page2Controller;
   late final AnimationController _page3Controller;
@@ -29,7 +30,7 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    
+
     _page1Controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -73,7 +74,8 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
   }
 
   void _scrollToPage(GlobalKey key) {
-    final RenderBox renderBox = key.currentContext?.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        key.currentContext?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero).dy;
     _scrollController.animateTo(
       position + _scrollController.offset,
@@ -95,10 +97,32 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Color(0xff4169e1),
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text("D e s k T o p"),
+        title: DefaultTextStyle(
+          style: TextStyle(
+            letterSpacing: 20,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            shadows: [
+              Shadow(
+                blurRadius: 10.0,
+                color: Colors.blueGrey,
+                offset: Offset(2.0, 2.0),
+              )
+            ],
+          ),
+          child: AnimatedTextKit(repeatForever: true, animatedTexts: [
+            FadeAnimatedText("Welcome"),
+            FadeAnimatedText("W"),
+            FadeAnimatedText("We"),
+            FadeAnimatedText("Wel"),
+            FadeAnimatedText("Welc"),
+            FadeAnimatedText("Welco"),
+            FadeAnimatedText("Welcom"),
+          ]),
+        ),
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -118,27 +142,52 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
                 children: [
                   InkWell(
                     onTap: () => _scrollToPage(_page1Key),
-                    child: Text("Page 1"),
+                    child: Text(
+                      "Home",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(width: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page2Key),
-                    child: Text("Page 2"),
+                    child: Text(
+                      "About",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(width: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page3Key),
-                    child: Text("Page 3"),
+                    child: Text(
+                      "Skills",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(width: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page4Key),
-                    child: Text("Page 4"),
+                    child: Text(
+                      "Project",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(width: 10),
                   InkWell(
                     onTap: () => _scrollToPage(_page5Key),
-                    child: Text("Page 5"),
+                    child: Text(
+                      "Contact",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -150,7 +199,7 @@ class _DHomePageState extends State<DHomePage> with TickerProviderStateMixin {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.greenAccent,
+          color: Color(0xff4169e1),
         ),
         child: SingleChildScrollView(
           controller: _scrollController,
