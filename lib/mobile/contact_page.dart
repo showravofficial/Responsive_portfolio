@@ -1,24 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class Page5 extends StatelessWidget {
-  const Page5({super.key});
+class ContactPage extends StatefulWidget {
+  const ContactPage({super.key});
+
+  @override
+  _ContactPageState createState() => _ContactPageState();
+}
+
+class _ContactPageState extends State<ContactPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+
+  void _clearFields() {
+    _nameController.clear();
+    _emailController.clear();
+    _messageController.clear();
+  }
+
+  Future<void> _sendEmail() async {
+    final String subject = 'Contact from ${_nameController.text}';
+    final String body =
+        'Name: ${_nameController.text}\nEmail: ${_emailController.text}\n\nMessage:\n${_messageController.text}';
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'showravofficial@gmail.com',
+      query: Uri.encodeFull('subject=$subject&body=$body'),
+    );
+
+    print('Email URI: $emailUri'); // Debug print
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+      _clearFields();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch email client')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _messageController = TextEditingController();
-
-
-    return Container(
-      // height: MediaQuery.of(context).size.height / 3,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(left: 15.0, right: 15.0,bottom: 20.0),
-      decoration: BoxDecoration(
-        // color: Colors.blueGrey,
-        borderRadius: BorderRadius.circular(40),
-      ),
-      child: SingleChildScrollView(
+    return Scaffold(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: Color(0xff778899),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,9 +169,7 @@ class Page5 extends StatelessWidget {
               height: MediaQuery.of(context).size.height / 15,
               width: MediaQuery.of(context).size.height / 1.5,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  
-                },
+                onPressed: _sendEmail,
                 label: Text(
                   "Send",
                   style: TextStyle(

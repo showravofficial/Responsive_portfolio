@@ -8,13 +8,13 @@ class Page1 extends StatelessWidget {
   const Page1({super.key});
   final String about =
       "As a computer science student with a passion for software engineering, I am eager to apply my knowledge and skills to real-world projects and make a meaningful impact in the industry. I am highly motivated, detail-oriented, and always looking to learn and improve. I am confident that my technical abilities, problem-solving skills, and team-oriented mindset will make me a valuable asset to any organization. I am excited to take on new challenges and grow as a software engineer.";
-  
-  Future<void> _launcherURL(Uri url)async{
-    if(await launchUrl(url)){
+
+  Future<void> _launcherURL(Uri url) async {
+    if (await launchUrl(url)) {
       throw 'could not launch';
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -132,7 +132,9 @@ class Page1 extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          // final Uri url=Uri.parse('')
+                          final Uri url = Uri.parse(
+                              'https://www.facebook.com/themir.official/');
+                          _launcherURL(url);
                         },
                         icon: FaIcon(
                           FontAwesomeIcons.facebook,
@@ -144,7 +146,8 @@ class Page1 extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: () {
-                            final Uri url=Uri.parse('https://www.linkedin.com/in/the-showrav/');
+                            final Uri url = Uri.parse(
+                                'https://www.linkedin.com/in/the-showrav/');
                             _launcherURL(url);
                           },
                           icon: FaIcon(
@@ -156,8 +159,9 @@ class Page1 extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          final Uri url=Uri.parse('https://github.com/showravofficial');
-                            _launcherURL(url);
+                          final Uri url =
+                              Uri.parse('https://github.com/showravofficial');
+                          _launcherURL(url);
                         },
                         icon: FaIcon(
                           FontAwesomeIcons.github,
@@ -180,7 +184,7 @@ class Page1 extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 2.5,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/userImg.png"),
+                    image: AssetImage("assets/images/profile.png"),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(250),

@@ -22,6 +22,7 @@ class DisplayManage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "</> showrav.dev",
       theme: ThemeData(
          primaryColor: Colors.deepPurple, 
       ),
